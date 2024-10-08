@@ -1,0 +1,58 @@
+version: '3'
+services:
+  nginx:
+    container_name: rest-advanced_nginx
+    build: 
+      dockerfile: docker/nginx/Dockerfile
+      context: ./..
+    volumes:
+      - ../public:/var/www/public
+    depends_on:
+      - php
+    links:
+      - php
+    ports:
+      - "8001:80"
+    networks:
+      - default
+  php:
+    container_name: rest-advanced_php
+    build:
+      dockerfile: docker/php/Dockerfile
+      context: ./..
+      target: dev
+    volumes:
+      - ../.:/var/www
+      - phpstorm-coverage:/opt/phpstorm-coverage
+      - ~/.cache/composer:/.composer
+      - /var/tmp:/var/tmp
+      - ~/.ssh:/home/v1acl/.ssh
+    environment:
+      PHP_XDEBUG_ENABLED: 1
+    links:
+      - postgres
+    depends_on:
+      - postgres
+    networks:
+      - default
+
+  postgres:
+    container_name: rest-advanced_postgres
+    restart: always
+    image: postgres:16.1-alpine
+    volumes:
+      - postgres.16.1-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: default
+    networks:
+      - default
+
+networks:
+  default:
+    driver: bridge
+
+volumes:
+  postgres.16.1-data: {}
+  phpstorm-coverage: {}
