@@ -26,8 +26,8 @@ class ApiExceptionSubscriber implements EventSubscriberInterface
         }
 
         $code = 500;
-        if ($event instanceof HttpExceptionInterface) {
-            $code = $event->getStatusCode();
+        if ($event->getThrowable() instanceof HttpExceptionInterface) {
+            $code = $event->getThrowable()->getStatusCode();
         }
         $event->setResponse(
             new JsonResponse(['message' => $event->getThrowable()->getMessage()], $code)

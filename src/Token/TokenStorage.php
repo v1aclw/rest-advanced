@@ -14,7 +14,7 @@ class TokenStorage {
 
     public function get(string $token): null|array
     {
-        if (null === $serializedData = $this->redis->get($this->buildKey($token))) {
+        if (false === $serializedData = $this->redis->get($this->buildKey($token))) {
             return null;
         }
 

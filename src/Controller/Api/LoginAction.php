@@ -14,10 +14,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Uid\Uuid;
 
-class ApiLoginController extends AbstractController
+#[Route('/api/v1/login', name: 'api_login', methods: ['POST'])]
+class LoginAction extends AbstractController
 {
-    #[Route('/api/v1/login', name: 'api_login', methods: ['POST'])]
-    public function index(UserRepository $userRepository, EntityManagerInterface $entityManager, TokenStorage $tokenStorage, Request $request): Response
+    public function __invoke(UserRepository $userRepository, EntityManagerInterface $entityManager, TokenStorage $tokenStorage, Request $request): Response
     {
         
         if (null === $login = $request->get('login')) {

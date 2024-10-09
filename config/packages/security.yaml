@@ -3,13 +3,14 @@ security:
         token_provider:
             entity:
                 class: App\Entity\User
-                property: token
+                property: id
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         api:
             lazy: true
+            stateless:  true
             provider: token_provider
             access_token:
                 token_handler: App\Security\AccessTokenHandler
