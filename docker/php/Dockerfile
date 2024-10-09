@@ -8,6 +8,14 @@ RUN apt-get update \
     && apt-get install -y libpq-dev \
     && docker-php-ext-install pdo pdo_pgsql
 
+# igbinary
+RUN pecl install igbinary \
+   && docker-php-ext-enable igbinary
+
+# redis
+RUN pecl install redis \
+   && docker-php-ext-enable redis
+
 # composer
 RUN curl -sS https://getcomposer.org/installer | php -- --filename=composer --install-dir=/usr/local/bin
 

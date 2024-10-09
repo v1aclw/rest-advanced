@@ -41,6 +41,12 @@ services:
     networks:
       - localhost_default
 
+  redis:
+    image: redis
+    container_name: rest-advanced_redis
+    volumes:
+      - redis-data:/data
+
 networks:
   localhost_default:
     external: true
@@ -49,3 +55,4 @@ volumes:
   postgres.16.1-data: {}
   phpstorm-coverage: {}
   assets: {}
+  redis-data: {}

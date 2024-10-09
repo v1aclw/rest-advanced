@@ -33,6 +33,7 @@ services:
       - postgres
     depends_on:
       - postgres
+      - redis
     networks:
       - default
 
@@ -49,6 +50,12 @@ services:
     networks:
       - default
 
+  redis:
+    image: redis
+    container_name: rest-advanced_redis
+    volumes:
+      - redis-data:/data
+
 networks:
   default:
     driver: bridge
@@ -56,3 +63,4 @@ networks:
 volumes:
   postgres.16.1-data: {}
   phpstorm-coverage: {}
+  redis-data: {}

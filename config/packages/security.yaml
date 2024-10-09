@@ -1,0 +1,17 @@
+security:
+    providers:
+        token_provider:
+            entity:
+                class: App\Entity\User
+                property: token
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        api:
+            lazy: true
+            provider: token_provider
+            access_token:
+                token_handler: App\Security\AccessTokenHandler
+
+    access_control:
