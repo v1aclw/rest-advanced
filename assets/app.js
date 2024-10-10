@@ -85,16 +85,43 @@ $(function () {
                 }
                 $pagiantion.append('<li class="page-item ' + (page >= pages ? 'disabled' : '') + '"><a class="page-link bg-dark link-light" href="#" data-action="paginationNext">Next</a></li>')
             },
+            error: function(data) {
+                if (401 == data.status) {
+                    updateToken(function() {updateTable();});
+                }
+            }
         });
     }
     updateTable();
 
     $("#tableBody").on("click", "[data-action=openDocument]", function() {
-        $("#documentModalTitle").text($(this).text());
-        $("#documentModalBody").html($(this).parent().next().html());
-
+        loadModal($(this).text());
+        
         return false;
     });
+
+    function loadModal(id) {
+        $.get({
+            url: "/api/v1/document/" + id, 
+            type: 'GET', 
+            beforeSend: function (xhr) {
+                let token = localStorage.getItem('token');
+
+                if (token) {
+                    xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+                }
+            },
+            success: function (data) { 
+                $("#documentModalTitle").text(data.document.id);
+                $("#documentModalBody").html('<pre>' + JSON.stringify(data.document.payload, null, 2) + '</pre>');
+            },
+            error: function(data) {
+                if (401 == data.status) {
+                    updateToken(function() {loadModal(id);});
+                }
+            }
+        });
+    };
 
     $("#pagination").on("click", "[data-action=paginationNext]", function() {
         page++;

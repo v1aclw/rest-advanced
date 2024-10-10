@@ -22,7 +22,7 @@ services:
     depends_on:
       - postgres
     networks:
-      - localhost_default
+      - nginx-proxy_default
 
   postgres:
     container_name: rest-advanced_postgres
@@ -39,7 +39,7 @@ services:
       options:
         max-size: "10m"
     networks:
-      - localhost_default
+      - nginx-proxy_default
 
   redis:
     image: redis
@@ -52,14 +52,13 @@ services:
       options:
         max-size: "10m"
     networks:
-      - localhost_default
+      - nginx-proxy_default
 
 networks:
-  localhost_default:
+  nginx-proxy_default:
     external: true
 
 volumes:
   postgres.16.1-data: {}
-  phpstorm-coverage: {}
   assets: {}
   redis-data: {}
