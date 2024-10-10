@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Api;
+namespace App\Controller\Api\Document;
 
 use App\Entity\Document;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,7 +14,7 @@ use Symfony\Component\Uid\Uuid;
 #[Route('/api/v1/document', name: 'api_document_create', methods: ['POST'])]
 class CreateDocumentAction extends AbstractController
 {
-    public function __invoke(EntityManagerInterface $entityManager, ): Response
+    public function __invoke(EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 

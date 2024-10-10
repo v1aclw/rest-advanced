@@ -14,5 +14,3 @@ security:
             provider: token_provider
             access_token:
                 token_handler: App\Security\AccessTokenHandler
-
-    access_control:

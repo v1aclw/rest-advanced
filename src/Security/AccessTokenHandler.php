@@ -21,6 +21,6 @@ class AccessTokenHandler implements AccessTokenHandlerInterface
             throw new BadCredentialsException('Invalid credentials.');
         }
 
-        return new UserBadge($tokenData['user_id']);
+        return new UserBadge($tokenData[TokenStorage::USER_ID]);
     }
 }

@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\Token;
 
 class TokenStorage {
+    public const USER_ID = 'user_id';
+
     public function __construct(private \Redis $redis) {}
 
     public function set(string $token, string $userId): void
     {
-        $this->redis->set($this->buildKey($token), \igbinary_serialize(['user_id' => $userId]), ['nx', 'ex' => 3600]);
+        $this->redis->set($this->buildKey($token), \igbinary_serialize([self::USER_ID => $userId]), ['nx', 'ex' => 3600]);
     }
 
     public function get(string $token): null|array

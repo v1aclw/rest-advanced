@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Api;
+namespace App\Controller\Api\Document;
 
 use App\Repository\DocumentRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;

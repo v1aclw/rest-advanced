@@ -11,23 +11,25 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Uid\Uuid;
 
 #[Route('/api/v1/login', name: 'api_login', methods: ['POST'])]
 class LoginAction extends AbstractController
 {
-    public function __invoke(UserRepository $userRepository, EntityManagerInterface $entityManager, TokenStorage $tokenStorage, Request $request): Response
-    {
-        
-        if (null === $login = $request->get('login')) {
-            return $this->json([
-                'message' => 'missing credentials',
-            ], Response::HTTP_UNAUTHORIZED);
+    public function __invoke(
+        UserRepository $userRepository,
+        EntityManagerInterface $entityManager,
+        TokenStorage $tokenStorage,
+        Request $request
+    ): Response {
+        if ((null === $login = $request->get('login')) || false === is_scalar($login) || '' === $login = (string) $login) {
+            throw new BadRequestHttpException('Missing credentials');
         }
 
         if (null === $user = $userRepository->findOneBy(['login' => $login])) {
-            $user = new User((string)Uuid::v4(), $login);
+            $user = new User((string) Uuid::v4(), $login);
             $entityManager->persist($user);
             $entityManager->flush();
         }
