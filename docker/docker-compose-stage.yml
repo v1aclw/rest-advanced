@@ -44,8 +44,15 @@ services:
   redis:
     image: redis
     container_name: rest-advanced_redis
+    restart: always
     volumes:
       - redis-data:/data
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+    networks:
+      - localhost_default
 
 networks:
   localhost_default:

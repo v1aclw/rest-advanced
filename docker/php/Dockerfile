@@ -35,6 +35,8 @@ RUN mkdir /home/v1acl && chown -R 1000:1000 /home/v1acl && \
 
 USER 1000
 
+CMD ["./docker/php/dev.sh"]
+
 FROM base as prod
 
 COPY . .
@@ -47,4 +49,4 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN composer install --no-dev --no-scripts && \
     composer dump-autoload --no-dev --classmap-authoritative
 
-CMD ["./docker/php/setup.sh"]
+CMD ["./docker/php/prod.sh"]
